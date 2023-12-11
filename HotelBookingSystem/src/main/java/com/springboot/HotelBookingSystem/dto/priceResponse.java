@@ -9,8 +9,17 @@ public class priceResponse {
 	private int numberOfDays;
 	private double cgst;
 	private double sgst;
+	private double gstPrice;
 	
 	
+	
+	
+	public double getGstPrice() {
+		return gstPrice;
+	}
+	public void setGstPrice(double gstPrice) {
+		this.gstPrice = gstPrice;
+	}
 	public double getCgst() {
 		return cgst;
 	}

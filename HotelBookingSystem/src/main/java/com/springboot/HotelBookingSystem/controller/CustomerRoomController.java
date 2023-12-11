@@ -63,7 +63,7 @@ public class CustomerRoomController {
 
 	}
 
-	@PutMapping("booking/cancel/{bid}")
+	@DeleteMapping("booking/cancel/{bid}")
 	public ResponseEntity<?> cancelBooking(@PathVariable("bid") int bid) {
 
 		try {
@@ -168,7 +168,7 @@ public class CustomerRoomController {
 		double basicPrice = 0.0;
 		double totalPrice = 0.0;
 		double gst = 0.0;
-		if(availability.isIsavailable() && priceDto.getNumberOfRooms() < room.getTotalRooms()) {
+		if(availability.isIsavailable() && priceDto.getNumberOfRooms() <= availability.getRoomsAvailable()) {
 			basicPrice += room.getPrice() * priceDto.getNumberOfRooms() * dateDifference; 
 			response.setAvailable(true);
 			response.setPrice(basicPrice);
@@ -181,9 +181,11 @@ public class CustomerRoomController {
 				response.setCgst(9);
 				response.setSgst(9);
 			}
+			double gstPrice = (basicPrice*response.getCgst())/100;
 			gst = response.getCgst() + response.getSgst();
 			totalPrice = basicPrice + (basicPrice*gst)/100;
 			response.setTotalBookingPrice(totalPrice);
+			response.setGstPrice(gstPrice);
 		}else {
 			response.setAvailable(false);
 		}
